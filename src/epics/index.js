@@ -2,37 +2,38 @@ import { ofType } from 'redux-observable';
 import { ajax } from 'rxjs/ajax';
 import {
 	map,
-	tap,
 	retry,
-	filter,
-	debounceTime,
 	switchMap,
-	catchError
+	catchError, tap
 } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { homeFailure, homeRequest, homeSuccess } from '../features/home';
 import {
-	failure,
-	request,
-	searchField, setItems,
-	success
-} from '../features/skills/skillsSlice';
+	changeId,
+	detailsFailure,
+	detailsRequest,
+	detailsSuccess
+} from '../features/details';
 
-export const changeSearchEpic = action$ => action$.pipe(
-	ofType(searchField().type),
-	map(o => o.payload.trim()),
-	filter(o => o !== ''),
-	debounceTime(100),
-	map(o => request(o))
-)
-
-export const searchSkillsEpic = action$ => action$.pipe(
-	ofType(request().type),
-	map(o => o.payload),
-	map(o => new URLSearchParams({q: o})),
-	tap(o => console.log(o)),
-	switchMap(o => ajax.getJSON(`${process.env.REACT_APP_SEARCH_URL}?${o}`).pipe(
+export const loadHomeEpic = action$ => action$.pipe(
+	ofType(homeRequest().type),
+	switchMap(o => ajax.getJSON(process.env.REACT_APP_URL).pipe(
 		retry(3),
-		map(o => success(o)),
-		catchError(e => of(failure(e))),
+		map(o => homeSuccess(o)),
+		catchError(e => of(homeFailure(e))),
 	)),
 );
+
+export const changeIdDetailsEpic = action$ => action$.pipe(
+	ofType(changeId().type),
+	map(o => detailsRequest(o.payload))
+)
+
+export const loadDetailsEpic = action$ => action$.pipe(
+	ofType(detailsRequest().type),
+	switchMap(o => ajax.getJSON(`${process.env.REACT_APP_URL}/${o.payload}`).pipe(
+		retry(3),
+		map(o => detailsSuccess(o)),
+		catchError(e => of(detailsFailure(e)))
+	))
+)

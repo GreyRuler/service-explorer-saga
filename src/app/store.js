@@ -1,18 +1,21 @@
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
-import { changeSearchEpic, searchSkillsEpic } from '../epics';
+import { changeIdDetailsEpic, loadDetailsEpic, loadHomeEpic } from '../epics';
 import { configureStore } from '@reduxjs/toolkit';
-import skillsReducer from '../features/skills/skillsSlice';
+import homeReducer from '../features/home/index'
+import detailsReducer from '../features/details/index'
 
 const epic = combineEpics(
-	changeSearchEpic,
-	searchSkillsEpic,
+	loadHomeEpic,
+	changeIdDetailsEpic,
+	loadDetailsEpic,
 );
 
 const epicMiddleware = createEpicMiddleware();
 
 const store = configureStore({
 	reducer: {
-		skills: skillsReducer
+		home: homeReducer,
+		details: detailsReducer,
 	},
 	middleware: getDefaultMiddleware => getDefaultMiddleware().concat(epicMiddleware)
 })
