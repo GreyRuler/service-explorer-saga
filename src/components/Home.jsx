@@ -9,7 +9,6 @@ import { Button } from 'react-bootstrap';
 export const Home = () => {
 	const {items, error, loading} = useSelector(state => state.home.value)
 	const dispatch = useDispatch();
-	console.log(items)
 
 	useEffect(() => {
 		dispatch(homeRequest());

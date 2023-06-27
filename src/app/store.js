@@ -1,25 +1,19 @@
-import { combineEpics, createEpicMiddleware } from 'redux-observable';
-import { changeIdDetailsEpic, loadDetailsEpic, loadHomeEpic } from '../epics';
+import createSagaMiddleware from 'redux-saga'
 import { configureStore } from '@reduxjs/toolkit';
 import homeReducer from '../features/home/index'
 import detailsReducer from '../features/details/index'
+import saga from '../sagas';
 
-const epic = combineEpics(
-	loadHomeEpic,
-	changeIdDetailsEpic,
-	loadDetailsEpic,
-);
-
-const epicMiddleware = createEpicMiddleware();
+const sagaMiddleware = createSagaMiddleware()
 
 const store = configureStore({
 	reducer: {
 		home: homeReducer,
 		details: detailsReducer,
 	},
-	middleware: getDefaultMiddleware => getDefaultMiddleware().concat(epicMiddleware)
+	middleware: getDefaultMiddleware => getDefaultMiddleware().concat(sagaMiddleware)
 })
 
-epicMiddleware.run(epic);
+sagaMiddleware.run(saga)
 
 export default store
