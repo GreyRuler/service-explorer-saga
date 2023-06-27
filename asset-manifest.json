@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/service-explorer-saga/static/css/main.678b8e35.css",
+    "main.js": "/service-explorer-saga/static/js/main.54d22dd1.js",
+    "static/js/787.d359b54f.chunk.js": "/service-explorer-saga/static/js/787.d359b54f.chunk.js",
+    "index.html": "/service-explorer-saga/index.html",
+    "main.678b8e35.css.map": "/service-explorer-saga/static/css/main.678b8e35.css.map",
+    "main.54d22dd1.js.map": "/service-explorer-saga/static/js/main.54d22dd1.js.map",
+    "787.d359b54f.chunk.js.map": "/service-explorer-saga/static/js/787.d359b54f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.678b8e35.css",
+    "static/js/main.54d22dd1.js"
+  ]
+}
